@@ -59,9 +59,10 @@ function streamFile() {
 //       so peak memory stays flat regardless of file size.
 //
 // YOUR EXPLANATION:
-// readFile holds the whole file in memory at once, so the amount of memory used
-// grows with the size of the file. A stream moves the file in smaller chunks,
-// so it can process large files while keeping peak memory usage relatively flat
+//  fs.readFile() holds the whole file in memory at once, so memory usage grows
+// with the file size. A stream moves the file in smaller chunks instead of
+// loading everything at once, which keeps peak memory usage lower and relatively
+// stable even as the file becomes very large.
 
 // Run both approaches.
 readWholeFile();
