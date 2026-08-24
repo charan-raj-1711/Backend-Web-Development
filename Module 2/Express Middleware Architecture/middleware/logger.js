@@ -15,4 +15,9 @@
 
 module.exports = function logger(req, res, next) {
   // TODO: register res.on('finish', ...) to log method, path, status, then next().
+  res.on('finish', ()=> {
+    const prefix = req.id ? `[$req.id.slic(0,8)]` : '';
+    console.log(`${prefix}${req.method} ${req.path} ${res.statusCode}`);
+  });
+  next();
 };
