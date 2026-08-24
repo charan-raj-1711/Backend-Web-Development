@@ -17,7 +17,7 @@ module.exports = function timing(req, res, next) {
   res.on('finish', ()=>{
     const elapsed_time = Date.now() - start;
     const prefix = req.id ? `[${req.id.slice(0,8)}]` : '';
-    console.log(`${prefix}${req.method} ${req.path} took ${elapsed_time}`);
+    console.log(`${prefix}${req.method} ${req.path} took ${elapsed_time}ms`);
     });
     next();
 };
