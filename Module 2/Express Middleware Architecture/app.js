@@ -33,7 +33,7 @@ const timing = require('./middleware/timing');
 const app = express();
 
 // Built-in body parser so POST /posts can read req.body (already provided).
-app.use(express.json());
+// app.use(express.json());
 
 // ─────────────────────────────────────────────────────────────────────────────
 // TODO: mount your GLOBAL middleware here, BEFORE the routers, in a deliberate
@@ -42,6 +42,7 @@ app.use(express.json());
   app.use(requestId);
   app.use(logger);
   app.use(timing);
+  app.use(express.json());
 // ─────────────────────────────────────────────────────────────────────────────
 
 // Two mounted routers (do not remove these).
