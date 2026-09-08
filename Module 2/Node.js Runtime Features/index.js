@@ -63,7 +63,6 @@ function streamFile() {
 // with the file size. A stream moves the file in smaller chunks instead of
 // loading everything at once, which keeps peak memory usage lower and relatively
 // stable even as the file becomes very large.
-
 // Run both approaches.
 readWholeFile();
 streamFile();
