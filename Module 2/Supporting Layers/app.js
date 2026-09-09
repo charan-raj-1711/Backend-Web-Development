@@ -19,6 +19,7 @@
 const express = require('express');
 const articlesRouter = require('./routes/articles');
 const errorHandler = require('./middleware/errorHandler');
+const config = require('./config/index');
 
 const app = express();
 app.use(express.json());
@@ -28,9 +29,9 @@ app.use('/articles', articlesRouter);
 app.use(errorHandler);
 
 // TODO: this process.env read should move into config/index.js, then import it.
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`articles-api listening on http://localhost:${PORT}`);
+// const PORT = process.env.PORT || 3000;
+app.listen(config.port, () => {
+  console.log(`articles-api listening on http://localhost:${config.port}`);
 });
 
 module.exports = app;
