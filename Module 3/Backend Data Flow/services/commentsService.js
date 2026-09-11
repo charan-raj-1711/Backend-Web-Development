@@ -13,5 +13,17 @@ const AppError = require('./../utils/AppError');
  * No write may happen before both checks pass.
  */
 exports.addComment = async (postId, userId, body) => {
-  throw new AppError('addComment is not implemented yet', 501);
+  const post = postsRepo.findById(postId);
+  if(!post){
+    throw new AppError('Post not found', 404);
+  }
+  if(post.locked){
+    throw new AppError('Post is locked for new comments', 409);
+  }
+  const comment = commentsRepo.insert({postId, authorId: userId, body});
+
+  postsRepo.incrementCommentCount(postId);
+
+  return comment;
+  // throw new AppError('addComment is not implemented yet', 501);
 };
