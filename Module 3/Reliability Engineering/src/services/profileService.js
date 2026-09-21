@@ -54,7 +54,7 @@ async function withRetry(operation, options = {}) {
     try{
       return await operation();
     } catch (error) {
-      const lastAttempt = aattempt === maxAttempts - 1;
+      const lastAttempt = attempt === maxAttempts - 1;
 
       if(lastAttempt || !isRetryable(error)){
         throw error;
@@ -80,7 +80,7 @@ async function getProfileWithAvatar(authorId, avatarClient, options = {}) {
     const avatar = await withRetry(
       ()=>
         withTimeout(
-          signal => avatarClient.getAvatar(authorId, signal),
+          signal => avatarClient.getAvatar(authorId, {signal}),
           timeoutMs
         ),
         {
