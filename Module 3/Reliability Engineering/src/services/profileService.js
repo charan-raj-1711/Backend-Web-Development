@@ -96,11 +96,19 @@ async function getProfileWithAvatar(authorId, avatarClient, options = {}) {
   } catch (error) {
     // TODO: return { authorId, avatar: DEFAULT_AVATAR, degraded: true }.
     // Keep fallback local; do not throw for avatar failure.
+    if(error?.status === 400){
     return {
       authorId,
       avatar: DEFAULT_AVATAR,
       degraded: true
     };
+  }
+
+  return {
+    authorId,
+    avatar: DEFAULT_AVATAR,
+    degraded:true
+  }
   }
 }
 
