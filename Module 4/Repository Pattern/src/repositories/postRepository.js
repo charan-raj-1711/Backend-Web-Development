@@ -1,26 +1,26 @@
 const postStore = require('../data/postStore');
 
 function findAll() {
-    return [...postStore.posts];
+  return [...postStore.posts];
 }
 
 function findById(id) {
-    return postStore.posts.find(
-        (post) => post.id === Number(id) 
-    ) || null;
+  return postStore.posts.find(
+    (post) => post.id === Number(id)
+  ) || null;
 }
 
 function create(fields) {
-    const post = {
-        id: postStore.nextId(),
-        title: fields.title,
-        body: fields.body || '',
-        authorId: fields.authorId,
-    };
+  const post = {
+    id: postStore.nextId(),
+    title: fields.title,
+    body: fields.body || '',
+    authorId: fields.authorId,
+  };
 
-    postStore.posts.push(post);
+  postStore.posts.push(post);
 
-    return post;
+  return post;
 }
 
 function update(id, patch) {
@@ -28,7 +28,11 @@ function update(id, patch) {
 
   if (!post) return null;
 
-  if (!patch || Object.keys(patch).length === 0) {
+  if (
+    !patch ||
+    typeof patch !== 'object' ||
+    Object.keys(patch).length === 0
+  ) {
     return post;
   }
 
@@ -43,23 +47,22 @@ function update(id, patch) {
   return post;
 }
 
+function remove(id) {
+  const index = postStore.posts.findIndex(
+    (post) => post.id === Number(id)
+  );
 
-function remove(id){
-    const index = postStore.findByIndex(
-        (post) => post.id === Number(id)
-    );
+  if (index === -1) return false;
 
-    if(index === -1) return false;
+  postStore.posts.splice(index, 1);
 
-    postStore.posts.splice(index,1);
-
-    return true;
+  return true;
 }
 
-module.exports ={
-    findAll,
-    findById,
-    create,
-    update,
-    remove,
+module.exports = {
+  findAll,
+  findById,
+  create,
+  update,
+  remove,
 };
