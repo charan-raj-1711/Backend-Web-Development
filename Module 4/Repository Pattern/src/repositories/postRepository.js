@@ -23,24 +23,26 @@ function create(fields) {
     return post;
 }
 
-function update(id, patch){
-    const post =  findById(id);
+function update(id, patch) {
+  const post = findById(id);
 
-    if(!post) return null;
+  if (!post) return null;
 
-    if (!patch || Object.keys(patch).length === 0) {
+  if (!patch || Object.keys(patch).length === 0) {
     return post;
-    }
+  }
 
-    if(patch.title !== undefined){
-        post.title = patch.title;
-    }
-    if(patch.body !== undefined){
-        post.body = patch.body;
-    }
+  if (patch.title !== undefined) {
+    post.title = patch.title;
+  }
 
-    return post;
+  if (patch.body !== undefined) {
+    post.body = patch.body;
+  }
+
+  return post;
 }
+
 
 function remove(id){
     const index = postStore.findByIndex(
