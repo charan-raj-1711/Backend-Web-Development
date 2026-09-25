@@ -28,6 +28,10 @@ function update(id, patch){
 
     if(!post) return null;
 
+    if (!patch || Object.keys(patch).length === 0) {
+    return post;
+    }
+
     if(patch.title !== undefined){
         post.title = patch.title;
     }
