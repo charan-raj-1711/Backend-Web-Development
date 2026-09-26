@@ -1,68 +1,49 @@
-const postStore = require('../data/postStore');
+const {posts: initialPosts} = require('../data/postStore');
+
+let posts = initialPosts.map((post) => ({ ...post}));
+let nextId = posts.reduce((highest, post) => Math.max(highest, post.id),0) + 1;
 
 function findAll() {
-  return [...postStore.posts];
+  return posts.map((post) => ({ ...post }));  // return a copy, not the live array
 }
 
 function findById(id) {
-  return postStore.posts.find(
-    (post) => post.id === Number(id)
-  ) || null;
+   const post = posts.find((post) => post.id === Number(id));
+
+  return post ? { ...post } : null;
 }
 
 function create(fields) {
-  const post = {
-    id: postStore.nextId(),
+  const post = { 
+    id: nextId++, 
     title: fields.title,
     body: fields.body || '',
-    authorId: fields.authorId,
+    authorId: fields.authorId, 
   };
-
-  postStore.posts.push(post);
-
-  return post;
+  posts.push(post);
+  return { ...post };  // return a copy
 }
 
 function update(id, patch) {
-  const post = findById(id);
-
+  const post = posts.find(p => p.id === Number(id));
   if (!post) return null;
-
-  if (
+   if (
     !patch ||
     typeof patch !== 'object' ||
     Object.keys(patch).length === 0
   ) {
-    return post;
+    return { ...post };
   }
-
-  if (patch.title !== undefined) {
-    post.title = patch.title;
-  }
-
-  if (patch.body !== undefined) {
-    post.body = patch.body;
-  }
-
-  return post;
+  if(patch.title !== undefined) post.title = patch.title;
+  if(patch.body !== undefined) post.body = patch.body;
+  return { ...post };
 }
 
 function remove(id) {
-  const index = postStore.posts.findIndex(
-    (post) => post.id === Number(id)
-  );
-
+  const index = posts.findIndex(p => p.id === Number(id));
   if (index === -1) return false;
-
-  postStore.posts.splice(index, 1);
-
+  posts.splice(index, 1);
   return true;
 }
 
-module.exports = {
-  findAll,
-  findById,
-  create,
-  update,
-  remove,
-};
+module.exports = { findAll, findById, create, update, remove };

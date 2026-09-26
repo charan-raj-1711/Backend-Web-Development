@@ -15,7 +15,11 @@ function createPost(fields) {
     throw error;
   }
 
-  return postRepository.create(fields);
+   return postRepository.create({
+    title: fields.title,
+    body: fields.body || '',
+    authorId: fields.authorId,
+  });
 }
 
 function updatePost(id, patch) {
