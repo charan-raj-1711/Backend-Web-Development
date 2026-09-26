@@ -1,4 +1,4 @@
-const {posts: initialPosts} = require('../data/postStore');
+const { posts: initialPosts } = require('../data/postStore');
 
 // This repository currently uses in-memory storage.
 // If Prisma is introduced later, only the storage implementation
@@ -6,36 +6,43 @@ const {posts: initialPosts} = require('../data/postStore');
 // The repository methods and their return values remain the same,
 // so services and controllers do not need to change.
 
-let posts = initialPosts.map((post) => ({ ...post}));
-let nextId = posts.reduce((highest, post) => Math.max(highest, post.id),0) + 1;
+let posts = initialPosts.map((post) => ({ ...post }));
 
+let nextId =
+  posts.reduce((highest, post) => Math.max(highest, post.id), 0) + 1;
+
+// Returns all posts as a new array.
 function findAll() {
-  return posts.map((post) => ({ ...post }));  // return a copy, not the live array
+  return posts.map((post) => ({ ...post }));
 }
 
+// Returns a post by ID, or null if it does not exist.
 function findById(id) {
-   const post = posts.find((post) => post.id === Number(id));
+  const post = posts.find((post) => post.id === Number(id));
 
   return post ? { ...post } : null;
 }
 
+// Creates and returns a new post.
 function create(fields) {
-  const post = { 
-    id: nextId++, 
+  const post = {
+    id: nextId++,
     title: fields.title,
     body: fields.body || '',
-    authorId: fields.authorId, 
+    authorId: fields.authorId,
   };
+
   posts.push(post);
-  return { ...post };  // return a copy
+
+  return { ...post };
 }
 
+// Updates a post and returns the updated post, or null if not found.
 function update(id, patch) {
   const post = posts.find((post) => post.id === Number(id));
 
   if (!post) return null;
 
-  // Ignore invalid or empty patches and return the existing post unchanged.
   if (
     !patch ||
     typeof patch !== 'object' ||
@@ -56,11 +63,23 @@ function update(id, patch) {
   return { ...post };
 }
 
+// Removes a post and returns true, or false if the post does not exist.
 function remove(id) {
-  const index = posts.findIndex(p => p.id === Number(id));
+  const index = posts.findIndex(
+    (post) => post.id === Number(id)
+  );
+
   if (index === -1) return false;
+
   posts.splice(index, 1);
+
   return true;
 }
 
-module.exports = { findAll, findById, create, update, remove };
+module.exports = {
+  findAll,
+  findById,
+  create,
+  update,
+  remove,
+};
