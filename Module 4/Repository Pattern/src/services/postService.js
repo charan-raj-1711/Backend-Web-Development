@@ -15,11 +15,15 @@ function createPost(fields) {
     throw error;
   }
 
-  return postRepository.create({
-    title: fields.title,
-    body: fields.body || '',
-    authorId: fields.authorId,
-  });
+  try {
+    return postRepository.create({
+      title: fields.title,
+      body: fields.body || '',
+      authorId: fields.authorId,
+    });
+  } catch (error) {
+    throw error;
+  }
 }
 
 function updatePost(id, patch) {
