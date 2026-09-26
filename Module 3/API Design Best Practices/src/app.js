@@ -18,6 +18,15 @@ function createApp() {
   // - cap limit server-side (default limit = 2 for exercise)
   // - stop exposing old verb routes as public contract
   // - expose safe internal failure route for testing/demo
+  app.use((err, req, res, next)=>{
+    console.log(err);
+
+    res.status(500).json({
+      error:{
+        message: 'Internal server error'
+      }
+    });
+  });
 
   return app;
 }
