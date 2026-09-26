@@ -1,5 +1,11 @@
 const {posts: initialPosts} = require('../data/postStore');
 
+// This repository currently uses in-memory storage.
+// If Prisma is introduced later, only the storage implementation
+// inside this repository needs to change.
+// The repository methods and their return values remain the same,
+// so services and controllers do not need to change.
+
 let posts = initialPosts.map((post) => ({ ...post}));
 let nextId = posts.reduce((highest, post) => Math.max(highest, post.id),0) + 1;
 

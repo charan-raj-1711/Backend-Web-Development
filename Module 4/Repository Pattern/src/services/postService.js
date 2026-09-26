@@ -15,7 +15,7 @@ function createPost(fields) {
     throw error;
   }
 
-   return postRepository.create({
+  return postRepository.create({
     title: fields.title,
     body: fields.body || '',
     authorId: fields.authorId,
@@ -35,5 +35,5 @@ module.exports = {
   getPost,
   createPost,
   updatePost,
-  removePost
+  removePost,
 };
