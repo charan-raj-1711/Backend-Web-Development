@@ -31,17 +31,28 @@ function create(fields) {
 }
 
 function update(id, patch) {
-  const post = posts.find(p => p.id === Number(id));
+  const post = posts.find((post) => post.id === Number(id));
+
   if (!post) return null;
-   if (
+
+  // Ignore invalid or empty patches and return the existing post unchanged.
+  if (
     !patch ||
     typeof patch !== 'object' ||
+    Array.isArray(patch) ||
     Object.keys(patch).length === 0
   ) {
     return { ...post };
   }
-  if(patch.title !== undefined) post.title = patch.title;
-  if(patch.body !== undefined) post.body = patch.body;
+
+  if (patch.title !== undefined) {
+    post.title = patch.title;
+  }
+
+  if (patch.body !== undefined) {
+    post.body = patch.body;
+  }
+
   return { ...post };
 }
 
